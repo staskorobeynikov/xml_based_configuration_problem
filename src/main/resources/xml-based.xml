@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="roleBean"
+          name="role"
+          class="com.skdev.xmlbased.Role"
+          scope="prototype"
+          lazy-init="true"
+          init-method="postConstruct"
+          destroy-method="preDestroy">
+        <constructor-arg name="name" value="ADMIN" />
+    </bean>
+
+    <bean id="countryBean"
+          name="country"
+          class="com.skdev.xmlbased.Country"
+          factory-method="createCountry">
+        <constructor-arg name="name" value="United Arabian Emirates" />
+    </bean>
+
+    <bean id="infoFactoryBean"
+          class="com.skdev.xmlbased.InfoFactory"/>
+
+    <bean id="accountBean"
+          name="account"
+          factory-bean="infoFactoryBean"
+          factory-method="getAccount">
+        <constructor-arg value="User_1234"/>
+    </bean>
+
+    <bean id="companyBean"
+          name="company"
+          factory-bean="infoFactoryBean"
+          factory-method="getCompany">
+        <constructor-arg value="Amazon"/>
+    </bean>
+
+    <bean id="personBean"
+          name="person"
+          class="com.skdev.xmlbased.Person"
+          lazy-init="true">
+        <constructor-arg name="company" ref="company"/>
+        <constructor-arg name="country" ref="country"/>
+        <constructor-arg name="role" ref="role"/>
+        <constructor-arg name="account" ref="account"/>
+        <constructor-arg name="name" value="John Doe"/>
+    </bean>
+</beans>
